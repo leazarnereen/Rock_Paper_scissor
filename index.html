@@ -4,8 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock_Paper_Scissor</title>
+    <link rel="stylesheet" href="Style.css">
 </head>
 <body>
-    
+    <main>
+        <h1 class="title">Rock Paper Scissor</h1>
+        <div class="game">
+            <div class="images">
+                <div class="choice" id="rock">
+                    <img src="./images/rock.png" alt="Rock" loading="lazy">
+                </div>
+                <div class="choice" id="paper">
+                    <img src="./images/paper.png" alt="Paper" loading="lazy">
+                </div>
+                <div class="choice" id="scissor">
+                    <img src="./images/scissor.png" alt="Scissor" loading="lazy" >
+                </div>
+            </div>
+            <div class="results">
+                <h3>You:-</h3>
+                <h4  class="userScore"> 0</h4>
+                <h3>Computer:-</h3>
+                <h4  class="compScore"> 0</h4>
+                <h3 class="result">Play Game</h3>
+            </div>
+            <button class="reset">Reset</button>
+        </div>
+    </main>
+    <script>
+        let choices=document.querySelectorAll(".choice");
+        console.log(choices);
+        let result=document.querySelector(".result");
+        let userScore=0;
+        let compScore =0;
+        let user=document.querySelector(".userScore");
+        let comp=document.querySelector(".compScore");
+        let reset=document.querySelector(".reset")
+        choices.forEach((choice)=>{
+            choice.addEventListener("click",()=>{
+                const userChoice=choice.getAttribute("id");
+                console.log(`you choice: ${userChoice}`);
+                game(userChoice);
+            })
+        })
+
+        const computerTurn =()=>{
+            const option=["rock","paper","scissor"];
+            const random = Math.floor(Math.random() *3);
+            return option[random];
+        }
+
+        const game=(userChoice)=>{
+            const compChoice= computerTurn();
+            console.log(`Comp choice: ${compChoice}`);
+            if(userChoice===compChoice){
+                console.log("drawn");
+                result.innerText="Match is drawn";
+            }else{
+                let userwin=true;
+                if(userChoice==="rock"){
+                    userwin= compChoice==="paper"? false: true;
+                    console.log(userwin);
+                }else if(userChoice==="paper"){
+                    userwin= compChoice==="scissor"? false: true;
+                    console.log(userwin);
+                }else if(userChoice==="scissor"){
+                    userwin= compChoice==="rock"? false: true;
+                    console.log(userwin);
+                }
+                showWinner(userwin);
+            }
+            
+        }
+
+        const showWinner=(userwin)=>{
+            if(userwin){
+                userScore++;
+                result.innerText="You won";
+                console.log("You win", userScore);
+            }
+            else{
+                compScore++;
+                result.innerText="You lose";
+                console.log("You lose",compScore);
+            }
+            user.innerText=userScore;
+            comp.innerText=compScore;
+            
+        }
+
+        reset.addEventListener("click" ,()=>{
+            userScore=0;
+            compScore=0;
+            user.innerText=userScore;
+            comp.innerText=compScore;
+            result.innerText="Play again";
+        })
+    </script>
 </body>
 </html>
